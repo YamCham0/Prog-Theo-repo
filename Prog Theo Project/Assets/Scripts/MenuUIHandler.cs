@@ -8,6 +8,9 @@ using UnityEditor;
 
 public class MenuUIHandler : MonoBehaviour
 {
+
+[SerializeField] Text PlayerNameInput;
+
     // Start Game
     public void StartGame()
     {
@@ -18,10 +21,15 @@ public class MenuUIHandler : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
-
+    //Go Back buttons
     public void GoBack()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void SetPlayerName()
+    {
+        PlayerDataHandler.Instance.PlayerName = PlayerNameInput.text;
     }
 
     // Exit Game
