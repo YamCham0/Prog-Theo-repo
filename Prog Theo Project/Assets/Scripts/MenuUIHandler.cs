@@ -13,10 +13,15 @@ public class MenuUIHandler : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
-// How to play Scene
+    // How to play Scene
     public void Tutorial()
     {
         SceneManager.LoadScene(2);
+    }
+
+    public void GoBack()
+    {
+        SceneManager.LoadScene(0);
     }
 
     // Exit Game
