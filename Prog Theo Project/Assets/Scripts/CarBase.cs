@@ -29,13 +29,28 @@ public abstract class CarBase : MonoBehaviour
     }
 
     // OnCollisionEnter to detect landing
-    void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collision Detected with: " + collision.gameObject.name);
         // Check if the car landed back on the track
         if (collision.gameObject.CompareTag("Track"))
         {
             isJumping = false;
         }
+
+        // Check if the car collided with an obstacle
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            HandleObstacleCollision(collision.gameObject);
+        }
+    }
+
+    // Custom method to handle collision with obstacles
+    public virtual void HandleObstacleCollision(GameObject obstacle)
+    {
+        // Default collision handling logic, override in derived classes if needed
+        TakeDamage(10);  // Example: take 10 points of damage
+        Debug.Log("Collided with obstacle: " + obstacle.name);
     }
 
     // Encapsulation: Public method to deal damage to the car, hiding internal variables
@@ -51,14 +66,14 @@ public abstract class CarBase : MonoBehaviour
 
     // Function to switch lanes left or right
     // Initialize to 1 for the middle lane
-      
+
 
     public virtual void SwitchLane(bool moveRight)
     {
         Vector3 targetPosition = transform.position;
-    
+
         // Define lane positions
-        float[] lanePositions = {-1.3f, 0f, 1.3f};
+        float[] lanePositions = { -1.3f, 0f, 1.3f };
 
         // Move to adjacent lane if possible
         if (moveRight && currentLaneIndex < lanePositions.Length - 1)

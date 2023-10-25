@@ -8,7 +8,7 @@ public class CarType1 : CarBase
     {
         // Initialize the properties for CarType1
         carName = "CarType1";
-        hitPoints = 120;
+        hitPoints = 20;
         mobility = 4.0f;
     }
 
@@ -47,11 +47,12 @@ public class CarType1 : CarBase
         // Your implementation here
     }
 
-    // Implementing the abstract Jump method from CarBase
-    public override void Jump()
-    {
-        base.Jump(); // Call parent class's Jump method
-    }
+    public override void HandleObstacleCollision(GameObject obstacle)
+{
+    // CarType1-specific collision handling
+    Debug.Log("CarType1 collided with obstacle: " + obstacle.name);
+    TakeDamage(5);  // Example: take only 5 points of damage
+}
 
     // Implementing the abstract SwitchLane method from CarBase
     public override void SwitchLane(bool moveRight)

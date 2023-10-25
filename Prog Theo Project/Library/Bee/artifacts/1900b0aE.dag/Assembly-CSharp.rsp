@@ -357,6 +357,9 @@
 "Assets/Scripts/MainManager.cs"
 "Assets/Scripts/MenuUIHandler.cs"
 "Assets/Scripts/MoveBack.cs"
+"Assets/Scripts/ObstacleBase.cs"
+"Assets/Scripts/ObstacleManager.cs"
+"Assets/Scripts/ObstacleType1.cs"
 "Assets/Scripts/PlayerDataHandler.cs"
 "Assets/Scripts/RepeatTrack.cs"
 -langversion:9.0
