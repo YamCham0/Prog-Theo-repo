@@ -404,10 +404,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carName: 
-  hitPoints: 0
-  mobility: 0
   laneSwitchSpeed: 2
   jumpForce: 5
+  isJumping: 0
 --- !u!1 &377742817
 GameObject:
   m_ObjectHideFlags: 0
