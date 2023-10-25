@@ -8,23 +8,23 @@ using UnityEditor;
 
 public class MenuUIHandler : MonoBehaviour
 {
+    [SerializeField] public TMP_InputField PlayerNameInput;
 
-[SerializeField] Text PlayerNameInput;
-
-    // Start Game
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        SetPlayerName();
+        GameStateManager.Instance.SetState(GameState.Main);
     }
-    // How to play Scene
+
     public void Tutorial()
     {
-        SceneManager.LoadScene(2);
+        GameStateManager.Instance.SetState(GameState.Tutorial);
     }
-    //Go Back buttons
+
     public void GoBack()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("TitleScene");
+        // GameStateManager.Instance.SetState(GameState.Title);
     }
 
     public void SetPlayerName()
@@ -32,7 +32,6 @@ public class MenuUIHandler : MonoBehaviour
         PlayerDataHandler.Instance.PlayerName = PlayerNameInput.text;
     }
 
-    // Exit Game
     public void ExitGame()
     {
 #if UNITY_EDITOR
@@ -42,3 +41,4 @@ public class MenuUIHandler : MonoBehaviour
 #endif
     }
 }
+
