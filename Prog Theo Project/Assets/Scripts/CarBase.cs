@@ -6,63 +6,36 @@ using UnityEngine;
 public abstract class CarBase : MonoBehaviour
 {
     public string carName;
-    public int hitPoints;
-    public float mobility;
     public float laneSwitchSpeed = 2.0f;
     private int currentLaneIndex = 1;
     [SerializeField] protected float jumpForce = 5f;
-    private bool isJumping = false;
+    public bool isJumping = false;
 
-    // Abstract function for moving the car, to be implemented by derived classes
-    public abstract void Move();
+   
 
     public virtual void Jump()
     {
-        if (!isJumping)  // No double jumps
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            // Perform the jump
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-            // Set the flag
             isJumping = true;
         }
     }
 
     // OnCollisionEnter to detect landing
     public void OnCollisionEnter(Collision collision)
+{
+    if (collision.gameObject.CompareTag("Track"))
+    {
+        isJumping = false;
+        Debug.Log("Landed back on: " + collision.gameObject.name);
+    }
+    if (collision.gameObject.CompareTag("Obstacle"))
     {
         Debug.Log("Collision Detected with: " + collision.gameObject.name);
-        // Check if the car landed back on the track
-        if (collision.gameObject.CompareTag("Track"))
-        {
-            isJumping = false;
-        }
-
-        // Check if the car collided with an obstacle
-        if (collision.gameObject.CompareTag("Obstacle"))
-        {
-            HandleObstacleCollision(collision.gameObject);
-        }
     }
+}
 
-    // Custom method to handle collision with obstacles
-    public virtual void HandleObstacleCollision(GameObject obstacle)
-    {
-        // Default collision handling logic, override in derived classes if needed
-        TakeDamage(10);  // Example: take 10 points of damage
-        Debug.Log("Collided with obstacle: " + obstacle.name);
-    }
-
-    // Encapsulation: Public method to deal damage to the car, hiding internal variables
-    public void TakeDamage(int damage)
-    {
-        hitPoints -= damage;
-        if (hitPoints <= 0)
-        {
-            // TODO: Implement logic for when the car is destroyed
-            Debug.Log("Car is destroyed!");
-        }
-    }
 
     // Function to switch lanes left or right
     // Initialize to 1 for the middle lane
@@ -88,5 +61,17 @@ public abstract class CarBase : MonoBehaviour
         // Set the new x position
         targetPosition.x = lanePositions[currentLaneIndex];
         transform.position = targetPosition;
+    }
+
+    public virtual void Move()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            SwitchLane(false);  // Move left
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            SwitchLane(true);  // Move right
+        }
     }
 }
