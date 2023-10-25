@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class PlayerDataHandler : MonoBehaviour
 {
-    //Static Class for save the current player data;
-
     public static PlayerDataHandler Instance;
-
     public string PlayerName;
 
-    public int Score;
-
-    private void Awake()
+    void Awake()
     {
-        if (Instance != null)
+        if (Instance == null)
         {
-            Destroy(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
