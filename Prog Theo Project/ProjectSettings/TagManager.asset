@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Track
   - Obstacle
+  - CanvasRoot
   layers:
   - Default
   - TransparentFX

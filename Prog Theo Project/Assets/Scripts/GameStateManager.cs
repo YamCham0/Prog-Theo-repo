@@ -53,52 +53,68 @@ public class GameStateManager : MonoBehaviour
 
 
     IEnumerator LoadSceneWithTransition(GameState newState)
+{
+    // Do not transition if the state is GameOver
+    if(newState != GameState.GameOver)
     {
         // Load the LoadingScene first
         SceneManager.LoadScene("LoadingScene");
 
         // Wait for a second (or however long you want the transition to be)
         yield return new WaitForSeconds(1);
-
-        // Load the actual scene
-        switch (newState)
-        {
-            case GameState.Title:
-                SceneManager.LoadScene("TitleScene");
-                break;
-            case GameState.Tutorial:
-                SceneManager.LoadScene("TutorialScene");
-                break;
-            case GameState.Main:
-                SceneManager.LoadScene("MainScene");
-                break;
-            case GameState.GameOver:
-                OnGameOver.Invoke();
-                break;
-        }
-
-        CurrentState = newState;
     }
+
+    // Load the actual scene
+    switch (newState)
+    {
+        case GameState.Title:
+            SceneManager.LoadScene("TitleScene");
+            break;
+        case GameState.Tutorial:
+            SceneManager.LoadScene("TutorialScene");
+            break;
+        case GameState.Main:
+            SceneManager.LoadScene("MainScene");
+            break;
+        case GameState.GameOver:
+            // Handle GameOver state here without switching scene.
+            // Could invoke a UnityEvent or set a flag that other scripts can listen to.
+            // OnGameOver.Invoke();
+            break;
+    }
+
+    CurrentState = newState;
+}
+
 
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "MainScene")
+    {
+        Transform root = GameObject.FindGameObjectWithTag("CanvasRoot").transform; // Assuming you've tagged your Canvas root
+        Transform textTransform = root.Find("GameOverText"); // Direct child
+        if (textTransform != null)
         {
-            gameOverText = GameObject.Find("GameOverText").GetComponent<TextMeshProUGUI>();
+            gameOverText = textTransform.GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+            Debug.LogError("GameOverText not found");
         }
     }
-
-
-public void UpdateHighScore(int newScore, string newPlayer)
-{
-    if (newScore > HighScoreManager.BestScore)
-    {
-        HighScoreManager.BestScore = newScore;
-        HighScoreManager.BestPlayer = newPlayer;
-        HighScoreManager.SaveGameRank();
     }
-}
+
+
+    public void UpdateHighScore(int newScore, string newPlayer)
+    {
+        if (newScore > HighScoreManager.BestScore)
+        {
+            HighScoreManager.BestScore = newScore;
+            HighScoreManager.BestPlayer = newPlayer;
+            HighScoreManager.SaveGameRank();
+        }
+    }
 
 
 
@@ -106,7 +122,14 @@ public void UpdateHighScore(int newScore, string newPlayer)
     public void GameOver()
     {
         isGameOver = true;
-        gameOverText.gameObject.SetActive(true);
+        if (gameOverText != null)
+        {
+            gameOverText.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("GameOverText is not set");
+        }
         SetState(GameState.GameOver);
     }
 }
