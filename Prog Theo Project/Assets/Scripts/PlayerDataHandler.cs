@@ -6,6 +6,7 @@ public class PlayerDataHandler : MonoBehaviour
 {
     public static PlayerDataHandler Instance;
     public string PlayerName;
+    public int PlayerScore = 0;
 
     void Awake()
     {

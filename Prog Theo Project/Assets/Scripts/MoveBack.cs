@@ -5,16 +5,19 @@ using UnityEngine;
 public class MoveBack : MonoBehaviour
 {
 
-    [SerializeField] private  float speed = 15;
+    [SerializeField] private float speed = 15;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.back * Time.deltaTime * speed);
+        if (GameStateManager.Instance.isGameOver == false)
+        {
+            transform.Translate(Vector3.back * Time.deltaTime * speed);
+        }
     }
 }

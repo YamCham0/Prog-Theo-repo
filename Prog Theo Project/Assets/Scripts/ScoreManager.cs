@@ -12,8 +12,11 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        distanceTraveled += Time.deltaTime; // Assuming 1 unit of distance per second
-        UpdateScoreText();
+        if (GameStateManager.Instance.isGameOver == false)
+        {
+            distanceTraveled += Time.deltaTime; // Assuming 1 unit of distance per second
+            UpdateScoreText();
+        }
     }
 
     void UpdateScoreText()
