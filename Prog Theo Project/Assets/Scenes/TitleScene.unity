@@ -1009,8 +1009,9 @@ GameObject:
   m_Component:
   - component: {fileID: 994182313}
   - component: {fileID: 994182312}
+  - component: {fileID: 994182314}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameStateManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1032,6 +1033,8 @@ MonoBehaviour:
   OnGameOver:
     m_PersistentCalls:
       m_Calls: []
+  isGameOver: 0
+  gameOverText: {fileID: 0}
 --- !u!4 &994182313
 Transform:
   m_ObjectHideFlags: 0
@@ -1047,6 +1050,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &994182314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994182311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b40ef0de9850f142a76026e4b0a420f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BestPlayerName: {fileID: 1873156097}
 --- !u!1 &1004139671
 GameObject:
   m_ObjectHideFlags: 0

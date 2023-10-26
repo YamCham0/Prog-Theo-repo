@@ -355,6 +355,7 @@
 "Assets/Scripts/CarBase.cs"
 "Assets/Scripts/CarType1.cs"
 "Assets/Scripts/GameStateManager.cs"
+"Assets/Scripts/HighScoreManager.cs"
 "Assets/Scripts/MainSceneCanvas.cs"
 "Assets/Scripts/MenuUIHandler.cs"
 "Assets/Scripts/MoveBack.cs"
