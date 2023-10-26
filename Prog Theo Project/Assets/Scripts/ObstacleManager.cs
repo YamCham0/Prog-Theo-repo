@@ -24,7 +24,10 @@ public class ObstacleManager : MonoBehaviour
     {
         int obstacleIndex = GetRandomObstacleIndex();
         Vector3 spawnPosition = GetRandomLanePosition();
-        Instantiate(obstaclePrefabs[obstacleIndex], spawnPosition, Quaternion.identity);
+        if (GameStateManager.Instance.isGameOver == false)
+        {
+            Instantiate(obstaclePrefabs[obstacleIndex], spawnPosition, Quaternion.identity);
+        }
     }
 
     // Custom method to get random obstacle index

@@ -11,11 +11,9 @@ public abstract class CarBase : MonoBehaviour
     [SerializeField] protected float jumpForce = 5f;
     public bool isJumping = false;
 
-
-
     public virtual void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && GameStateManager.Instance.isGameOver == false)
         {
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isJumping = true;
@@ -39,15 +37,22 @@ public abstract class CarBase : MonoBehaviour
 
     private void TriggerGameOver()
     {
+        int finalScore = PlayerDataHandler.Instance.PlayerScore;
+        string player = PlayerDataHandler.Instance.PlayerName;
+
+        Debug.Log("TriggerGameOver - Final Score: " + finalScore + ", Player: " + player);
+
         if (GameStateManager.Instance != null)
         {
-            GameStateManager.Instance.GameOver();
+            GameStateManager.Instance.GameOver(finalScore, player);
         }
         else
         {
             Debug.LogError("GameStateManager instance is null");
         }
     }
+
+
 
 
     // Function to switch lanes left or right
@@ -76,11 +81,11 @@ public abstract class CarBase : MonoBehaviour
 
     public virtual void Move()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && GameStateManager.Instance.isGameOver == false)
         {
             SwitchLane(false);  // Move left
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && GameStateManager.Instance.isGameOver == false)
         {
             SwitchLane(true);  // Move right
         }

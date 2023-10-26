@@ -57,6 +57,20 @@ public class HighScoreManager : MonoBehaviour
         }
     }
 
+
+    public void UpdateHighScore(int newScore, string newPlayer)
+    {
+        Debug.Log("UpdateHighScore Called with score: " + newScore);
+        if (newScore > HighScoreManager.BestScore)
+        {
+            HighScoreManager.BestScore = newScore;
+            HighScoreManager.BestPlayer = newPlayer;
+            HighScoreManager.SaveGameRank();
+
+            SetBestPlayer();
+        }
+    }
+
     private void SetBestPlayer()
     {
         if (BestPlayer == null && BestScore == 0)

@@ -14,6 +14,7 @@ public class MenuUIHandler : MonoBehaviour
     {
         SetPlayerName();
         GameStateManager.Instance.SetState(GameState.Main);
+        GameStateManager.Instance.isGameOver = false;
     }
 
     public void Tutorial()
