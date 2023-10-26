@@ -11,7 +11,7 @@ public abstract class CarBase : MonoBehaviour
     [SerializeField] protected float jumpForce = 5f;
     public bool isJumping = false;
 
-   
+
 
     public virtual void Jump()
     {
@@ -24,23 +24,34 @@ public abstract class CarBase : MonoBehaviour
 
     // OnCollisionEnter to detect landing
     public void OnCollisionEnter(Collision collision)
-{
-    if (collision.gameObject.CompareTag("Track"))
     {
-        isJumping = false;
-        Debug.Log("Landed back on: " + collision.gameObject.name);
+        if (collision.gameObject.CompareTag("Track"))
+        {
+            isJumping = false;
+            Debug.Log("Landed back on: " + collision.gameObject.name);
+        }
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Debug.Log("Collision Detected with: " + collision.gameObject.name);
+            TriggerGameOver();
+        }
     }
-    if (collision.gameObject.CompareTag("Obstacle"))
+
+    private void TriggerGameOver()
     {
-        Debug.Log("Collision Detected with: " + collision.gameObject.name);
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.GameOver();
+        }
+        else
+        {
+            Debug.LogError("GameStateManager instance is null");
+        }
     }
-}
 
 
     // Function to switch lanes left or right
     // Initialize to 1 for the middle lane
-
-
     public virtual void SwitchLane(bool moveRight)
     {
         Vector3 targetPosition = transform.position;
