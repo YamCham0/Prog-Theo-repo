@@ -77,28 +77,22 @@ public class HighScoreManager : MonoBehaviour
 
     private void SetBestPlayer()
     {
+        if (BestPlayerName == null)
+        {
+            Debug.LogError("BestPlayerName is not initialized.");
+            return;
+        }
+
         if (BestPlayer == null && BestScore == 0)
         {
             BestPlayerName.text = "";
         }
         else
         {
-            Debug.Log("Is BestPlayerName null? " + (BestPlayerName == null));
-            Debug.Log("Is BestPlayer null? " + (BestPlayer == null));
-            Debug.Log("Is BestScore null? " + (BestScore == null));
-
-            BestPlayerName.text = $"Best Score - {BestPlayer}: {BestScore}";
+            BestPlayerName.text = $"HighScore - {BestPlayer}: {BestScore}";
         }
-        if (BestPlayerName != null)
-        {
-            BestPlayerName.text = $"Best Score - {BestPlayer}: {BestScore}";
-        }
-        else
-        {
-            Debug.LogError("BestPlayerName is not initialized.");
-        }
-
     }
+
 
     [System.Serializable]
     class SaveData
