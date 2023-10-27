@@ -15,6 +15,7 @@ public class ScoreManager : MonoBehaviour
         if (GameStateManager.Instance.isGameOver == false)
         {
             distanceTraveled += Time.deltaTime; // Assuming 1 unit of distance per second
+            Debug.Log("distanceTraveled" + distanceTraveled);
             UpdateScoreText();
         }
     }
@@ -22,6 +23,8 @@ public class ScoreManager : MonoBehaviour
     void UpdateScoreText()
     {
         int score = Mathf.FloorToInt(distanceTraveled * scoreMultiplier);
+        PlayerDataHandler.Instance.PlayerScore = score;
         scoreText.text = "Score: " + score;
+        Debug.Log("Score: " + score);
     }
 }

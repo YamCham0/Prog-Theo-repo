@@ -35,6 +35,7 @@ public class GameStateManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        Debug.Log("GameStateManager Instance: " + GameStateManager.Instance);
 
         highScoreManager = GetComponent<HighScoreManager>();
     }
@@ -112,6 +113,7 @@ public class GameStateManager : MonoBehaviour
 
         // Update the high score
         highScoreManager.UpdateHighScore(finalScore, player);
+        Debug.Log("GameOver - PlayerDataHandler Score: " + PlayerDataHandler.Instance.PlayerScore);
 
         if (gameOverText != null)
         {
