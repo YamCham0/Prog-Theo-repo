@@ -18,6 +18,7 @@ public class HighScoreManager : MonoBehaviour
     public static void SaveGameRank()
     {
         string path = Application.persistentDataPath + "/savefile.json";
+        Debug.Log(Application.persistentDataPath);
 
         SaveData data = new SaveData();
         data.TheBestPlayer = BestPlayer;
@@ -48,6 +49,8 @@ public class HighScoreManager : MonoBehaviour
 
                 BestPlayer = data.TheBestPlayer;
                 BestScore = data.HighiestScore;
+                Debug.Log("Is loaded data null? " + (data == null));
+
                 SetBestPlayer();
             }
         }
@@ -60,6 +63,7 @@ public class HighScoreManager : MonoBehaviour
 
     public void UpdateHighScore(int newScore, string newPlayer)
     {
+        Debug.Log("PlayerDataHandler Score: " + PlayerDataHandler.Instance.PlayerScore);
         Debug.Log("UpdateHighScore Called with score: " + newScore);
         if (newScore > HighScoreManager.BestScore)
         {
@@ -79,8 +83,21 @@ public class HighScoreManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("Is BestPlayerName null? " + (BestPlayerName == null));
+            Debug.Log("Is BestPlayer null? " + (BestPlayer == null));
+            Debug.Log("Is BestScore null? " + (BestScore == null));
+
             BestPlayerName.text = $"Best Score - {BestPlayer}: {BestScore}";
         }
+        if (BestPlayerName != null)
+        {
+            BestPlayerName.text = $"Best Score - {BestPlayer}: {BestScore}";
+        }
+        else
+        {
+            Debug.LogError("BestPlayerName is not initialized.");
+        }
+
     }
 
     [System.Serializable]
