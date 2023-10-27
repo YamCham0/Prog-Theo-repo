@@ -19,6 +19,7 @@ public class GameStateManager : MonoBehaviour
     public UnityEvent OnGameOver;
     public bool isGameOver = false;
     [SerializeField] private TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI highScoreText;
     private HighScoreManager highScoreManager;
 
     private void Awake()
@@ -90,41 +91,59 @@ public class GameStateManager : MonoBehaviour
 
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    if (scene.name == "MainScene")
     {
-        if (scene.name == "MainScene")
+        Transform canvasRoot = GameObject.FindGameObjectWithTag("CanvasRoot").transform;
+        
+        // For gameOverText
+        Transform gameOverTextTransform = canvasRoot.Find("GameOverText"); 
+        if (gameOverTextTransform != null)
         {
-            Transform root = GameObject.FindGameObjectWithTag("CanvasRoot").transform; // Assuming you've tagged your Canvas root
-            Transform textTransform = root.Find("GameOverText"); // Direct child
-            if (textTransform != null)
-            {
-                gameOverText = textTransform.GetComponent<TextMeshProUGUI>();
-            }
-            else
-            {
-                Debug.LogError("GameOverText not found");
-            }
+            gameOverText = gameOverTextTransform.GetComponent<TextMeshProUGUI>();
+        }
+
+        // For highScoreText
+        Transform highScoreTextTransform = canvasRoot.Find("HighScoreText");
+        if (highScoreTextTransform != null)
+        {
+            highScoreText = highScoreTextTransform.GetComponent<TextMeshProUGUI>();
         }
     }
+}
+
 
 
     public void GameOver(int finalScore, string player)
+{
+    isGameOver = true;
+
+    // Update the high score
+    highScoreManager.UpdateHighScore(finalScore, player);
+
+    if (gameOverText != null && highScoreText != null)
     {
-        isGameOver = true;
+        gameOverText.gameObject.SetActive(true);
+        highScoreText.gameObject.SetActive(true);
 
-        // Update the high score
-        highScoreManager.UpdateHighScore(finalScore, player);
-        Debug.Log("GameOver - PlayerDataHandler Score: " + PlayerDataHandler.Instance.PlayerScore);
-
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(true);
-        }
-        else
+        // Set the text for the highScoreText here
+        highScoreText.text = $"HighScore - {HighScoreManager.BestPlayer}: {HighScoreManager.BestScore}";
+    }
+    else
+    {
+        if (gameOverText == null)
         {
             Debug.LogError("GameOverText is not set");
         }
-
-        SetState(GameState.GameOver);
+        if (highScoreText == null)
+        {
+            Debug.LogError("HighScoreText is not set");
+        }
     }
+
+    SetState(GameState.GameOver);
+}
+
+
 
 }
