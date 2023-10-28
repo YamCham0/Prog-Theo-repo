@@ -9,6 +9,7 @@ public enum GameState
     Title,
     Tutorial,
     Main,
+    Selection,
     GameOver
 }
 
@@ -63,7 +64,7 @@ public class GameStateManager : MonoBehaviour
             SceneManager.LoadScene("LoadingScene");
 
             // Wait for a second (or however long you want the transition to be)
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
         }
 
         // Load the actual scene
@@ -78,10 +79,10 @@ public class GameStateManager : MonoBehaviour
             case GameState.Main:
                 SceneManager.LoadScene("MainScene");
                 break;
+                case GameState.Selection:
+                SceneManager.LoadScene("SelectionScene");
+                break;
             case GameState.GameOver:
-                // Handle GameOver state here without switching scene.
-                // Could invoke a UnityEvent or set a flag that other scripts can listen to.
-                // OnGameOver.Invoke();
                 break;
         }
 

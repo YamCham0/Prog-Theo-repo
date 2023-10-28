@@ -7,7 +7,7 @@ public class CarType1 : CarBase
     void Start()
     {
         // Initialize the properties for CarType1
-        carName = "CarType1";
+        carName = "Totoya";
     }
 
     void Update()
