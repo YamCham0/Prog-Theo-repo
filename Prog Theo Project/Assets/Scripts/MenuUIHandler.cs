@@ -12,8 +12,13 @@ public class MenuUIHandler : MonoBehaviour
 
     public void StartGame()
     {
-        SetPlayerName();
         GameStateManager.Instance.SetState(GameState.Main);
+    }
+
+    public void SelectionScreen()
+    {
+        SetPlayerName();
+        GameStateManager.Instance.SetState(GameState.Selection);
         GameStateManager.Instance.isGameOver = false;
     }
 
