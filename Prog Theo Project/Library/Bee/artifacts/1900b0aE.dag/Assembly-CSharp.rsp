@@ -355,6 +355,7 @@
 "Assets/Scripts/CarBase.cs"
 "Assets/Scripts/CarType1.cs"
 "Assets/Scripts/CarType2.cs"
+"Assets/Scripts/GameController.cs"
 "Assets/Scripts/GameStateManager.cs"
 "Assets/Scripts/HighScoreManager.cs"
 "Assets/Scripts/LoadingTextEffect.cs"
