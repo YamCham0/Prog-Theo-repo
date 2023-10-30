@@ -283,7 +283,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1874079198}
         m_TargetAssemblyTypeName: MenuUIHandler, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: StartGameCarType2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1208,7 +1208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1874079198}
         m_TargetAssemblyTypeName: MenuUIHandler, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: StartGameCarType1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

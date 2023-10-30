@@ -10,8 +10,14 @@ public class MenuUIHandler : MonoBehaviour
 {
     [SerializeField] public TMP_InputField PlayerNameInput;
 
-    public void StartGame()
+    public void StartGameCarType1()
     {
+        GameStateManager.Instance.selectedCarName = "Totoya";
+        GameStateManager.Instance.SetState(GameState.Main);
+    }
+    public void StartGameCarType2()
+    {
+        GameStateManager.Instance.selectedCarName = "Subuwu";
         GameStateManager.Instance.SetState(GameState.Main);
     }
 
@@ -19,7 +25,7 @@ public class MenuUIHandler : MonoBehaviour
     {
         SetPlayerName();
         GameStateManager.Instance.SetState(GameState.Selection);
-        GameStateManager.Instance.isGameOver = false;
+        
     }
 
     public void Tutorial()
@@ -30,6 +36,7 @@ public class MenuUIHandler : MonoBehaviour
     public void GoBack()
     {
         SceneManager.LoadScene("TitleScene");
+        GameStateManager.Instance.isGameOver = false;
         // GameStateManager.Instance.SetState(GameState.Title);
     }
 

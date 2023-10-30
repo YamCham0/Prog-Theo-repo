@@ -18,6 +18,7 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager Instance;
     public GameState CurrentState;
     public UnityEvent OnGameOver;
+    public string selectedCarName;
     public bool isGameOver = false;
     [SerializeField] private TextMeshProUGUI gameOverText;
     public TextMeshProUGUI highScoreText;
@@ -72,6 +73,7 @@ public class GameStateManager : MonoBehaviour
         {
             case GameState.Title:
                 SceneManager.LoadScene("TitleScene");
+                isGameOver = false;
                 break;
             case GameState.Tutorial:
                 SceneManager.LoadScene("TutorialScene");
