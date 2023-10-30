@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
         // Instantiate the car at the desired position
         if (carPrefab != null)
         {
-            Instantiate(carPrefab, new Vector3(0, 0.4f, -9.4f), Quaternion.identity);
+            Instantiate(carPrefab, new Vector3(0, 0.4f, -8), Quaternion.identity);
         }
         else
         {

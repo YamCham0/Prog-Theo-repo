@@ -10,7 +10,7 @@ public class RepeatTrack : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        repeatWidth = GetComponent<BoxCollider>().size.z / 2;
+        repeatWidth = GetComponent<BoxCollider>().size.z / 3;
     }
 
     // Update is called once per frame
