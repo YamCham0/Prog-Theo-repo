@@ -40,6 +40,6 @@ public class ObstacleManager : MonoBehaviour
     public Vector3 GetRandomLanePosition()
     {
         float[] lanePositions = { -1.3f, 0f, 1.3f };
-        return new Vector3(lanePositions[Random.Range(0, lanePositions.Length)], 0.4f, 5);
+        return new Vector3(lanePositions[Random.Range(0, lanePositions.Length)], 0.4f, 25);
     }
 }

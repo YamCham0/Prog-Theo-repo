@@ -6,7 +6,7 @@ using UnityEngine;
 public class ObstacleBase : MonoBehaviour
 {
 
-    [SerializeField] public float speed = 15;
+    [SerializeField] public float speed = 30;
 
     // Custom method to move the obstacle
     public void MoveObstacle(float speed)
