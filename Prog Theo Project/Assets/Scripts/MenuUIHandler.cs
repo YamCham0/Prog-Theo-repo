@@ -35,9 +35,9 @@ public class MenuUIHandler : MonoBehaviour
 
     public void GoBack()
     {
-        SceneManager.LoadScene("TitleScene");
+        // SceneManager.LoadScene("TitleScene");
         GameStateManager.Instance.isGameOver = false;
-        // GameStateManager.Instance.SetState(GameState.Title);
+        GameStateManager.Instance.SetState(GameState.Title);
     }
 
     public void SetPlayerName()
