@@ -6,6 +6,7 @@ public class CarType1 : CarBase
 {
     void Start()
     {
+        base.Start();
         // Initialize the properties for CarType1
         carName = "Totoya";
     }

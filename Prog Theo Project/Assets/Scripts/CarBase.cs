@@ -10,13 +10,23 @@ public abstract class CarBase : MonoBehaviour
     private int currentLaneIndex = 1;
     [SerializeField] protected float jumpForce = 5f;
     public bool isJumping = false;
+    public ParticleSystem explosionParticle;
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
+    private AudioSource playerSound;
 
+
+    public void Start()
+    {
+        playerSound = GetComponent<AudioSource>();
+    }
     public virtual void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && GameStateManager.Instance.isGameOver == false)
         {
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isJumping = true;
+            playerSound.PlayOneShot(jumpSound, 3);
         }
     }
 
@@ -31,7 +41,10 @@ public abstract class CarBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Collision Detected with: " + collision.gameObject.name);
-            TriggerGameOver();
+            Debug.Log(explosionParticle);
+            playerSound.PlayOneShot(crashSound, 5);
+            explosionParticle.Play();
+            // TriggerGameOver();
         }
     }
 
