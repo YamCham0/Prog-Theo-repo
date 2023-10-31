@@ -81,7 +81,7 @@ public class GameStateManager : MonoBehaviour
             case GameState.Main:
                 SceneManager.LoadScene("MainScene");
                 break;
-                case GameState.Selection:
+            case GameState.Selection:
                 SceneManager.LoadScene("SelectionScene");
                 break;
             case GameState.GameOver:
@@ -89,63 +89,101 @@ public class GameStateManager : MonoBehaviour
         }
 
         CurrentState = newState;
+        UpdateSoundtrack();
     }
 
 
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-{
-    if (scene.name == "MainScene")
     {
-        Transform canvasRoot = GameObject.FindGameObjectWithTag("CanvasRoot").transform;
-        
-        // For gameOverText
-        Transform gameOverTextTransform = canvasRoot.Find("GameOverText"); 
-        if (gameOverTextTransform != null)
+        if (scene.name == "MainScene")
         {
-            gameOverText = gameOverTextTransform.GetComponent<TextMeshProUGUI>();
-        }
+            Transform canvasRoot = GameObject.FindGameObjectWithTag("CanvasRoot").transform;
 
-        // For highScoreText
-        Transform highScoreTextTransform = canvasRoot.Find("HighScoreText");
-        if (highScoreTextTransform != null)
-        {
-            highScoreText = highScoreTextTransform.GetComponent<TextMeshProUGUI>();
+            // For gameOverText
+            Transform gameOverTextTransform = canvasRoot.Find("GameOverText");
+            if (gameOverTextTransform != null)
+            {
+                gameOverText = gameOverTextTransform.GetComponent<TextMeshProUGUI>();
+            }
+
+            // For highScoreText
+            Transform highScoreTextTransform = canvasRoot.Find("HighScoreText");
+            if (highScoreTextTransform != null)
+            {
+                highScoreText = highScoreTextTransform.GetComponent<TextMeshProUGUI>();
+            }
         }
     }
-}
+
+
+    private void UpdateSoundtrack()
+    {
+        GameObject menuSoundManager = GameObject.Find("MenuSoundManager");
+        GameObject gameSoundManager = GameObject.Find("GameSoundManager");
+        AudioSource menuAudioSource = menuSoundManager.GetComponent<AudioSource>();
+        AudioSource gameAudioSource = gameSoundManager.GetComponent<AudioSource>();
+
+        switch (CurrentState)
+        {
+            case GameState.Title:
+            case GameState.Selection:
+            case GameState.Tutorial:
+                if (menuAudioSource != null && !menuAudioSource.isPlaying)
+                {
+                    menuAudioSource.Play();
+                }
+                if (gameAudioSource != null)
+                {
+                    gameAudioSource.Stop();
+                }
+                break;
+
+            case GameState.Main:
+                if (menuAudioSource != null)
+                {
+                    menuAudioSource.Stop();
+                }
+                if (gameAudioSource != null && !gameAudioSource.isPlaying)
+                {
+                    gameAudioSource.Play();
+                }
+                break;
+        }
+    }
+
 
 
 
     public void GameOver(int finalScore, string player)
-{
-    isGameOver = true;
-
-    // Update the high score
-    highScoreManager.UpdateHighScore(finalScore, player);
-
-    if (gameOverText != null && highScoreText != null)
     {
-        gameOverText.gameObject.SetActive(true);
-        highScoreText.gameObject.SetActive(true);
+        isGameOver = true;
 
-        // Set the text for the highScoreText here
-        highScoreText.text = $"HighScore - {HighScoreManager.BestPlayer}: {HighScoreManager.BestScore}";
-    }
-    else
-    {
-        if (gameOverText == null)
-        {
-            Debug.LogError("GameOverText is not set");
-        }
-        if (highScoreText == null)
-        {
-            Debug.LogError("HighScoreText is not set");
-        }
-    }
+        // Update the high score
+        highScoreManager.UpdateHighScore(finalScore, player);
 
-    SetState(GameState.GameOver);
-}
+        if (gameOverText != null && highScoreText != null)
+        {
+            gameOverText.gameObject.SetActive(true);
+            highScoreText.gameObject.SetActive(true);
+
+            // Set the text for the highScoreText here
+            highScoreText.text = $"HighScore - {HighScoreManager.BestPlayer}: {HighScoreManager.BestScore}";
+        }
+        else
+        {
+            if (gameOverText == null)
+            {
+                Debug.LogError("GameOverText is not set");
+            }
+            if (highScoreText == null)
+            {
+                Debug.LogError("HighScoreText is not set");
+            }
+        }
+
+        SetState(GameState.GameOver);
+    }
 
 
 
