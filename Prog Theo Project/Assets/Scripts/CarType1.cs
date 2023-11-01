@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CarType1 : CarBase
 {
-    void Start()
+    new void Start()
     {
         base.Start();
         // Initialize the properties for CarType1

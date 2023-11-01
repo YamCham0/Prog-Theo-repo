@@ -50,8 +50,6 @@ public class ObstacleManager : MonoBehaviour
 {
     int nextThreshold = lastThresholdCrossed + 200;
 
-    Debug.Log("Next Threshold: " + nextThreshold + ", Last Threshold Crossed: " + lastThresholdCrossed + ", Current Score: " + currentScore);
-
     if (currentScore >= nextThreshold && !thresholdCrossed) // Add the !thresholdCrossed check here
     {
         lastThresholdCrossed = nextThreshold;  // Update lastThresholdCrossed with nextThreshold
