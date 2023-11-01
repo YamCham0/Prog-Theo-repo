@@ -14,11 +14,16 @@ public abstract class CarBase : MonoBehaviour
     public AudioClip jumpSound;
     public AudioClip crashSound;
     private AudioSource playerSound;
+    private ParticleSystem explosionParticleInstance;
 
 
     public void Start()
     {
         playerSound = GetComponent<AudioSource>();
+
+        explosionParticleInstance = Instantiate(explosionParticle, transform.position, Quaternion.identity);
+        explosionParticleInstance.transform.SetParent(transform);  // Make it a child of this gameObject
+        explosionParticleInstance.gameObject.SetActive(false);  // Initially set to inactive
     }
     public virtual void Jump()
     {
@@ -30,9 +35,13 @@ public abstract class CarBase : MonoBehaviour
         }
     }
 
+
+
+
     // OnCollisionEnter to detect landing
     public void OnCollisionEnter(Collision collision)
     {
+
         if (collision.gameObject.CompareTag("Track"))
         {
             isJumping = false;
@@ -41,10 +50,11 @@ public abstract class CarBase : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Collision Detected with: " + collision.gameObject.name);
-            Debug.Log(explosionParticle);
             playerSound.PlayOneShot(crashSound, 5);
-            explosionParticle.Play();
-            // TriggerGameOver();
+            explosionParticleInstance.transform.position = transform.position;
+            explosionParticleInstance.gameObject.SetActive(true);
+            explosionParticleInstance.Play();
+            TriggerGameOver();
         }
     }
 
