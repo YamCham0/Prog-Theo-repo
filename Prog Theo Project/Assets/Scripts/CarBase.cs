@@ -37,7 +37,6 @@ public abstract class CarBase : MonoBehaviour
 
 
 
-
     // OnCollisionEnter to detect landing
     public void OnCollisionEnter(Collision collision)
     {

@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveBack : MonoBehaviour
+public class ObstacleType2 : ObstacleBase
 {
-
-    [SerializeField] private float speed = 30;
     // Start is called before the first frame update
     void Start()
     {
+        speed = 30;
+    }
 
+    public override void MoveObstacle(){
+        base.MoveObstacle();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameStateManager.Instance.isGameOver == false)
-        {
-            transform.Translate(Vector3.back * Time.deltaTime * speed);
-        }
+        MoveObstacle();
+        DestroyIfOffScreen();
     }
+
+    
 }

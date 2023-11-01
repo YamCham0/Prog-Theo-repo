@@ -9,9 +9,14 @@ public class ObstacleBase : MonoBehaviour
     [SerializeField] public float speed = 30;
 
     // Custom method to move the obstacle
-    public void MoveObstacle(float speed)
+    public virtual void MoveObstacle()
     {
         transform.Translate(Vector3.back * Time.deltaTime * speed);
+    }
+
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
     }
 
     // Custom method to destroy off-screen obstacles
@@ -25,7 +30,7 @@ public class ObstacleBase : MonoBehaviour
 
     void Update()
     {
-        MoveObstacle(speed);
+        MoveObstacle();
         DestroyIfOffScreen();
     }
 }
