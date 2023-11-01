@@ -15,10 +15,13 @@ public abstract class CarBase : MonoBehaviour
     public AudioClip crashSound;
     private AudioSource playerSound;
     private ParticleSystem explosionParticleInstance;
-
+    private GameObject subaruuGameObject;
 
     public void Start()
     {
+        Debug.Log("CarBase Start method called.");
+
+        subaruuGameObject = transform.Find("Subaruu_Impreeza_WRC").gameObject;
         playerSound = GetComponent<AudioSource>();
 
         explosionParticleInstance = Instantiate(explosionParticle, transform.position, Quaternion.identity);
@@ -38,26 +41,53 @@ public abstract class CarBase : MonoBehaviour
 
 
     // OnCollisionEnter to detect landing
-    public void OnCollisionEnter(Collision collision)
+    public virtual void OnCollisionEnter(Collision collision)
     {
-
+        Debug.Log("CarBase OnCollisionEnter called.");
         if (collision.gameObject.CompareTag("Track"))
         {
             isJumping = false;
             Debug.Log("Landed back on: " + collision.gameObject.name);
         }
+
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Collision Detected with: " + collision.gameObject.name);
-            playerSound.PlayOneShot(crashSound, 5);
-            explosionParticleInstance.transform.position = transform.position;
-            explosionParticleInstance.gameObject.SetActive(true);
-            explosionParticleInstance.Play();
+            PlayCrashSound();
+            TriggerGameOverEffects();
             TriggerGameOver();
         }
     }
 
-    private void TriggerGameOver()
+    protected void PlayCrashSound()
+    {
+        playerSound.PlayOneShot(crashSound, 5);
+    }
+
+    protected void TriggerGameOverEffects()
+    {
+        explosionParticleInstance.transform.position = transform.position;
+        explosionParticleInstance.gameObject.SetActive(true);
+        explosionParticleInstance.Play();
+    }
+
+    protected IEnumerator FlashCar()
+{
+    Debug.Log("FlashCar coroutine started.");
+    for (int i = 0; i < 5; i++)
+    {
+        Debug.Log("Flashing off.");
+        subaruuGameObject.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+
+        Debug.Log("Flashing on.");
+        subaruuGameObject.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+    }
+    Debug.Log("FlashCar coroutine ended.");
+}
+
+    protected void TriggerGameOver()
     {
         int finalScore = PlayerDataHandler.Instance.PlayerScore;
         string player = PlayerDataHandler.Instance.PlayerName;

@@ -14,11 +14,6 @@ public class ObstacleBase : MonoBehaviour
         transform.Translate(Vector3.back * Time.deltaTime * speed);
     }
 
-    public void SetSpeed(float newSpeed)
-    {
-        speed = newSpeed;
-    }
-
     // Custom method to destroy off-screen obstacles
     public void DestroyIfOffScreen()
     {
