@@ -4,9 +4,29 @@ using UnityEngine;
 
 public class GameSoundManager : MonoBehaviour
 {
-
     public static GameSoundManager Instance;
-    // Start is called before the first frame update
+
+    // Encapsulation: Access to the instance is controlled through a property.
+    public static GameSoundManager SharedInstance
+    {
+        get
+        {
+            if (Instance == null)
+            {
+                // Lazy initialization (only when needed)
+                Instance = FindObjectOfType<GameSoundManager>();
+                if (Instance == null)
+                {
+                    GameObject soundManager = new GameObject("GameSoundManager");
+                    Instance = soundManager.AddComponent<GameSoundManager>();
+                    DontDestroyOnLoad(soundManager);
+                }
+            }
+            return Instance;
+        }
+    }
+
+    // The Singleton pattern ensures only one instance of GameSoundManager exists.
     private void Awake()
     {
         if (Instance == null)
@@ -14,7 +34,7 @@ public class GameSoundManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }

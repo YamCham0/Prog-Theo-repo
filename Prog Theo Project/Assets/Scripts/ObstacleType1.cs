@@ -4,22 +4,10 @@ using UnityEngine;
 
 public class ObstacleType1 : ObstacleBase
 {
-    // Start is called before the first frame update
+    // Inheritance: ObstacleType1 inherits from ObstacleBase
+    // Polymorphism: Speed is being customized for this particular Obstacle Type
     void Start()
     {
-        speed = 40;
+        speed = 40; // This accesses the speed variable from the base class and sets a new value
     }
-
-    public override void MoveObstacle(){
-        base.MoveObstacle();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        MoveObstacle();
-        DestroyIfOffScreen();
-    }
-
-    
 }

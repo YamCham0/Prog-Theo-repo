@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using TMPro;
 
 public enum GameState
@@ -22,6 +23,7 @@ public class GameStateManager : MonoBehaviour
     public bool isGameOver = false;
     [SerializeField] private TextMeshProUGUI gameOverText;
     public TextMeshProUGUI highScoreText;
+    public Button backButton;
     private HighScoreManager highScoreManager;
 
     private void Awake()
@@ -38,8 +40,6 @@ public class GameStateManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        Debug.Log("GameStateManager Instance: " + GameStateManager.Instance);
-
         highScoreManager = GetComponent<HighScoreManager>();
     }
 
@@ -113,6 +113,12 @@ public class GameStateManager : MonoBehaviour
             {
                 highScoreText = highScoreTextTransform.GetComponent<TextMeshProUGUI>();
             }
+            // For Back button
+            Transform backButtonTransform = canvasRoot.Find("BackButton");
+            if (backButtonTransform != null)
+            {
+                backButton = backButtonTransform.GetComponent<Button>();
+            }
         }
     }
 
@@ -162,10 +168,12 @@ public class GameStateManager : MonoBehaviour
         // Update the high score
         highScoreManager.UpdateHighScore(finalScore, player);
 
-        if (gameOverText != null && highScoreText != null)
+        if (gameOverText != null && highScoreText != null && backButton != null)
         {
             gameOverText.gameObject.SetActive(true);
             highScoreText.gameObject.SetActive(true);
+            backButton.gameObject.SetActive(true);
+
 
             // Set the text for the highScoreText here
             highScoreText.text = $"HighScore - {HighScoreManager.BestPlayer}: {HighScoreManager.BestScore}";

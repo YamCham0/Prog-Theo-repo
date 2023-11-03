@@ -55,9 +55,6 @@ public class ObstacleManager : MonoBehaviour
         lastThresholdCrossed = nextThreshold;  // Update lastThresholdCrossed with nextThreshold
         spawnRate = Mathf.Max(0.2f, spawnRate - 0.2f);  // Decrease spawnRate by 0.2 to a minimum of 0.2f
 
-        // Log the updated spawnRate
-        Debug.Log("Updated SpawnRate: " + spawnRate);
-
         CancelInvoke("SpawnObstacle");
         InvokeRepeating("SpawnObstacle", 0, spawnRate);  // Reset with the new spawn rate
         thresholdCrossed = true; // Set the flag

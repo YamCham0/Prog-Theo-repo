@@ -1,33 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-// Abstraction: Abstract Car class that serves as the base for all car types
 public abstract class CarBase : MonoBehaviour
 {
-    public string carName;
-    public float laneSwitchSpeed = 2.0f;
-    private int currentLaneIndex = 1;
-    [SerializeField] protected float jumpForce = 5f;
-    public bool isJumping = false;
-    public ParticleSystem explosionParticle;
-    public AudioClip jumpSound;
-    public AudioClip crashSound;
+    [SerializeField] private string carName; // Encapsulation: carName is now a serialized private field
+    private int currentLaneIndex = 1; // Encapsulation: not exposed to child classes directly
+    [SerializeField] protected float jumpForce = 5f; // Protected: allows access to child classes while encapsulating from outside
+    protected bool isJumping = false;
+    [SerializeField] private ParticleSystem explosionParticle;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip crashSound;
     private AudioSource playerSound;
     private ParticleSystem explosionParticleInstance;
-    private GameObject subaruuGameObject;
 
-    public void Start()
+    void Awake()
     {
-        Debug.Log("CarBase Start method called.");
-
-        subaruuGameObject = transform.Find("Subaruu_Impreeza_WRC").gameObject;
         playerSound = GetComponent<AudioSource>();
-
         explosionParticleInstance = Instantiate(explosionParticle, transform.position, Quaternion.identity);
-        explosionParticleInstance.transform.SetParent(transform);  // Make it a child of this gameObject
-        explosionParticleInstance.gameObject.SetActive(false);  // Initially set to inactive
+        explosionParticleInstance.transform.SetParent(transform);
+        explosionParticleInstance.gameObject.SetActive(false);
     }
+
     public virtual void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && GameStateManager.Instance.isGameOver == false)
@@ -38,21 +31,17 @@ public abstract class CarBase : MonoBehaviour
         }
     }
 
-
-
-    // OnCollisionEnter to detect landing
     public virtual void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("CarBase OnCollisionEnter called.");
         if (collision.gameObject.CompareTag("Track"))
         {
             isJumping = false;
-            Debug.Log("Landed back on: " + collision.gameObject.name);
+
         }
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Debug.Log("Collision Detected with: " + collision.gameObject.name);
+
             PlayCrashSound();
             TriggerGameOverEffects();
             TriggerGameOver();
@@ -61,7 +50,11 @@ public abstract class CarBase : MonoBehaviour
 
     protected void PlayCrashSound()
     {
-        playerSound.PlayOneShot(crashSound, 5);
+
+        if (playerSound != null && crashSound != null)
+        {
+            playerSound.PlayOneShot(crashSound, 5);
+        }
     }
 
     protected void TriggerGameOverEffects()
@@ -71,52 +64,35 @@ public abstract class CarBase : MonoBehaviour
         explosionParticleInstance.Play();
     }
 
-    protected IEnumerator FlashCar()
-{
-    Debug.Log("FlashCar coroutine started.");
-    for (int i = 0; i < 5; i++)
+    protected virtual IEnumerator FlashCar()
     {
-        Debug.Log("Flashing off.");
-        subaruuGameObject.SetActive(false);
-        yield return new WaitForSeconds(0.1f);
 
-        Debug.Log("Flashing on.");
-        subaruuGameObject.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < 5; i++)
+        {
+            gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+
+            gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+        }
+
     }
-    Debug.Log("FlashCar coroutine ended.");
-}
 
     protected void TriggerGameOver()
     {
+
         int finalScore = PlayerDataHandler.Instance.PlayerScore;
         string player = PlayerDataHandler.Instance.PlayerName;
 
-        Debug.Log("TriggerGameOver - Final Score: " + finalScore + ", Player: " + player);
 
-        if (GameStateManager.Instance != null)
-        {
-            GameStateManager.Instance.GameOver(finalScore, player);
-        }
-        else
-        {
-            Debug.LogError("GameStateManager instance is null");
-        }
+        GameStateManager.Instance?.GameOver(finalScore, player);
     }
 
-
-
-
-    // Function to switch lanes left or right
-    // Initialize to 1 for the middle lane
     public virtual void SwitchLane(bool moveRight)
     {
         Vector3 targetPosition = transform.position;
-
-        // Define lane positions
         float[] lanePositions = { -1.3f, 0f, 1.3f };
 
-        // Move to adjacent lane if possible
         if (moveRight && currentLaneIndex < lanePositions.Length - 1)
         {
             currentLaneIndex++;
@@ -126,20 +102,19 @@ public abstract class CarBase : MonoBehaviour
             currentLaneIndex--;
         }
 
-        // Set the new x position
         targetPosition.x = lanePositions[currentLaneIndex];
-        transform.position = targetPosition;
+        transform.position = targetPosition; // Inheritance: Child classes inherit this method and can override it
     }
 
     public virtual void Move()
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) && GameStateManager.Instance.isGameOver == false)
         {
-            SwitchLane(false);  // Move left
+            SwitchLane(false); // Polymorphism: Subclasses can change how this method works
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && GameStateManager.Instance.isGameOver == false)
         {
-            SwitchLane(true);  // Move right
+            SwitchLane(true);
         }
     }
 }

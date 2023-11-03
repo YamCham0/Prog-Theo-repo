@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class CarType1 : CarBase
 {
-    new void Start()
+     void Start()
     {
-        base.Start();
-        // Initialize the properties for CarType1
-        carName = "Totoya";
+
     }
 
     void Update()

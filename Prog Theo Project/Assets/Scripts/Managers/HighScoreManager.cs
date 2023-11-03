@@ -12,13 +12,13 @@ public class HighScoreManager : MonoBehaviour
 
     private void Awake()
     {
+        // ClearHighScore();
         LoadGameRank();
     }
 
     public static void SaveGameRank()
     {
         string path = Application.persistentDataPath + "/savefile.json";
-        Debug.Log(Application.persistentDataPath);
 
         SaveData data = new SaveData();
         data.TheBestPlayer = BestPlayer;
@@ -49,8 +49,6 @@ public class HighScoreManager : MonoBehaviour
 
                 BestPlayer = data.TheBestPlayer;
                 BestScore = data.HighiestScore;
-                Debug.Log("Is loaded data null? " + (data == null));
-
                 SetBestPlayer();
             }
         }
@@ -63,8 +61,6 @@ public class HighScoreManager : MonoBehaviour
 
     public void UpdateHighScore(int newScore, string newPlayer)
     {
-        Debug.Log("PlayerDataHandler Score: " + PlayerDataHandler.Instance.PlayerScore);
-        Debug.Log("UpdateHighScore Called with score: " + newScore);
         if (newScore > HighScoreManager.BestScore)
         {
             HighScoreManager.BestScore = newScore;
@@ -100,4 +96,29 @@ public class HighScoreManager : MonoBehaviour
         public int HighiestScore;
         public string TheBestPlayer;
     }
+
+    // public void ClearHighScore()
+    // {
+    //     string path = Application.persistentDataPath + "/savefile.json";
+
+    //     if (File.Exists(path))
+    //     {
+    //         try
+    //         {
+    //             File.Delete(path);
+    //             Debug.Log("High score data deleted.");
+    //         }
+    //         catch (System.Exception e)
+    //         {
+    //             Debug.LogError("Could not delete high score data: " + e.Message);
+    //         }
+    //     }
+
+    //     // Reset the current static high score values
+    //     BestScore = 0;
+    //     BestPlayer = "";
+
+    //     // Update the BestPlayerName label to reflect the cleared high score
+    //     SetBestPlayer();
+    // }
 }
