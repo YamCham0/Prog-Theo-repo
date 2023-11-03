@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class ObstacleBase : MonoBehaviour
 {
+    // Encapsulation: Using SerializeField to allow setting in the inspector while keeping the field private
+    [SerializeField] protected float speed = 30;
 
-    [SerializeField] public float speed = 30;
-
-    // Custom method to move the obstacle
+    // Abstraction: A method that defines behavior without specifying the details in the base class
     public virtual void MoveObstacle()
     {
         transform.Translate(Vector3.back * Time.deltaTime * speed);
     }
 
-    // Custom method to destroy off-screen obstacles
-    public void DestroyIfOffScreen()
+    // Encapsulation: Keeping this logic within the object that it pertains to
+    private void DestroyIfOffScreen()
     {
         if (transform.position.z < -10.1f)
         {
@@ -23,6 +23,7 @@ public class ObstacleBase : MonoBehaviour
         }
     }
 
+    // Abstraction: Update is handling the abstraction of two different behaviors
     void Update()
     {
         MoveObstacle();

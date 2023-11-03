@@ -154,8 +154,8 @@ MonoBehaviour:
   jumpForce: 5
   isJumping: 0
   explosionParticle: {fileID: 19821056, guid: 079954accd64b32419ec069129c81273, type: 3}
-  jumpSound: {fileID: 8300000, guid: 08ab7053d586c458db3774d33c141a4b, type: 3}
-  crashSound: {fileID: 8300000, guid: 913d6445ee8cc4152a9c18da590ee203, type: 3}
+  jumpSound: {fileID: 8300000, guid: 8c1ffece360b16b4e8962db80aa49dc6, type: 3}
+  crashSound: {fileID: 8300000, guid: 8b10b88408c33894ab2fb661c3f38031, type: 3}
 --- !u!82 &7056977721995743727
 AudioSource:
   m_ObjectHideFlags: 0

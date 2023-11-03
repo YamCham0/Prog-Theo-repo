@@ -4,22 +4,9 @@ using UnityEngine;
 
 public class ObstacleType2 : ObstacleBase
 {
-    // Start is called before the first frame update
+    // Inheritance: ObstacleType2 inherits from ObstacleBase
     void Start()
     {
-        speed = 30;
+        speed = 30; // This accesses the speed variable from the base class and sets a new value, even though it's the same as the default
     }
-
-    public override void MoveObstacle(){
-        base.MoveObstacle();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        MoveObstacle();
-        DestroyIfOffScreen();
-    }
-
-    
 }

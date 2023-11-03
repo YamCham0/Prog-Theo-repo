@@ -5,12 +5,12 @@ using UnityEngine;
 public class CarType2 : CarBase
 {
     private int collisionCount = 0;
-    new void Start()
+    private GameObject subaruuGameObject;
+
+    void Start()
     {
-        Debug.Log("CarType2 Start method called.");
-        base.Start();
+        subaruuGameObject = transform.Find("Subaruu_Impreeza_WRC").gameObject;
         collisionCount = 0;
-        carName = "Subuwu";
     }
 
     public override void Move()
@@ -21,48 +21,49 @@ public class CarType2 : CarBase
             return;
         }
 
-        base.Move();
+        base.Move(); // Polymorphism: This overrides the Move behavior with an additional check
     }
 
     public override void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("CarType2 OnCollisionEnter called");
-
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             collisionCount++;
-
-            PlayCrashSound(); // Play crash sound for all collisions
+            PlayCrashSound(); // Polymorphism: Extends base PlayCrashSound with additional logic
 
             if (collisionCount == 1)
             {
-                StartCoroutine(FlashCar()); // Flash on the first collision
+                StartCoroutine(FlashCar()); // Polymorphism: Overrides base FlashCar behavior
             }
-
-            Debug.Log("Collision with Obstacle detected. Current collision count: " + collisionCount);
 
             if (collisionCount >= 2)
             {
-                Debug.Log("Collision count >= 2. Triggering GameOver.");
-                TriggerGameOverEffects(); // Play the particle effect on game over
-                TriggerGameOver();  // Trigger Game Over
+                TriggerGameOverEffects(); // Polymorphism: Use of base class method in extended context
+                TriggerGameOver(); // Polymorphism: Use of base class method in extended context
             }
         }
         else
         {
-            Debug.Log("Collision with non-Obstacle detected. Calling base OnCollisionEnter.");
-            base.OnCollisionEnter(collision);  // Handles other collisions like landing
+            base.OnCollisionEnter(collision); // Polymorphism: Calls the base class implementation
+        }
+    }
+
+    protected override IEnumerator FlashCar()
+    {
+
+        for (int i = 0; i < 5; i++)
+        {
+            subaruuGameObject.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+
+            subaruuGameObject.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
     void Update()
     {
-        // Call custom methods to check for inputs
         Move();
         Jump();
     }
-
-
-
-
 }

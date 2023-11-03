@@ -4,24 +4,21 @@ using UnityEngine;
 
 public class TrackMoveBack : MonoBehaviour
 {
+    [SerializeField] private float speed = 30f; // Encapsulation: Speed is adjustable in the Inspector but protected from outside access
+    public static float totalDistanceMoved = 0f; // Static variable to track the total distance moved
 
-    [SerializeField] private float speed = 30;
-    public static float totalDistanceMoved = 0;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-
+        if (!GameStateManager.Instance.isGameOver) // Encapsulation: Access GameStateManager's state via its instance
+        {
+            MoveTrack();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void MoveTrack()
     {
-        if (GameStateManager.Instance.isGameOver == false)
-        {
-            float distanceThisFrame = Time.deltaTime * speed;
-            transform.Translate(Vector3.back * distanceThisFrame);
-            totalDistanceMoved += distanceThisFrame;
-        }
+        float distanceThisFrame = Time.deltaTime * speed;
+        transform.Translate(Vector3.back * distanceThisFrame);
+        totalDistanceMoved += distanceThisFrame;
     }
 }

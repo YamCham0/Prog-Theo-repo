@@ -25,7 +25,7 @@ public class MenuUIHandler : MonoBehaviour
     {
         SetPlayerName();
         GameStateManager.Instance.SetState(GameState.Selection);
-        
+
     }
 
     public void Tutorial()

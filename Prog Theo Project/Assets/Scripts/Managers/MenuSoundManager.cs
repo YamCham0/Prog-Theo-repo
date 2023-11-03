@@ -1,12 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuSoundManager : MonoBehaviour
 {
     public static MenuSoundManager Instance;
-    
-    // Start is called before the first frame update
+
+    // Encapsulation: Access to the instance is controlled through a property.
+    public static MenuSoundManager SharedInstance
+    {
+        get
+        {
+            if (Instance == null)
+            {
+                Instance = FindObjectOfType<MenuSoundManager>();
+                if (Instance == null)
+                {
+                    GameObject menuManager = new GameObject("MenuSoundManager");
+                    Instance = menuManager.AddComponent<MenuSoundManager>();
+                    DontDestroyOnLoad(menuManager);
+                }
+            }
+            return Instance;
+        }
+    }
+
+    // Singleton pattern is used here to ensure there is only one instance of the MenuSoundManager in the game.
     private void Awake()
     {
         if (Instance == null)
@@ -14,7 +31,7 @@ public class MenuSoundManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
